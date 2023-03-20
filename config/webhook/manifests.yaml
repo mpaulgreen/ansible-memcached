@@ -1,0 +1,108 @@
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: deployment-mutation
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: memcached-operator-webhook
+      namespace: memcached-operator-system
+      path: /mutate
+    caBundle: ${ENCODED_CA}
+  failurePolicy: Fail
+  name: "deployment-mutation.memcached-operator-system.svc"
+  rules:
+  - apiGroups:
+    - cache.example.com
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    resources:
+    - memcacheds
+  sideEffects: None
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: deployment-validation
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: memcached-operator-webhook
+      namespace: memcached-operator-system
+      path: /validate
+    caBundle: ${ENCODED_CA}
+  failurePolicy: Fail
+  name: "deployment-validation.memcached-operator-system.svc"
+  rules:
+  - apiGroups:
+    - cache.example.com
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    resources:
+    - memcacheds
+  sideEffects: None
+
+# ---
+# apiVersion: admissionregistration.k8s.io/v1
+# kind: ValidatingWebhookConfiguration
+# metadata:
+#   name: deployment-validation
+# webhooks:
+#   - name: "deployment-validation.production.svc"
+#     namespaceSelector:
+#       matchExpressions:
+#         - key: kubernetes.io/metadata.name
+#           operator: In
+#           values: [ "memcached-operator-system" ]
+#     rules:
+#       - operations: [ "CREATE" ]
+#         apiGroups: [ "cache.example.com" ]
+#         apiVersions: [ "v1alpha1" ]
+#         resources: [ "memcacheds" ]
+#         scope: "Namespaced"
+#     clientConfig:
+#       service:
+#         namespace: memcached-operator-system
+#         name: memcached-operator-webhook
+#         path: "/validate"
+#       caBundle: ${ENCODED_CA}
+#     admissionReviewVersions: ["v1"]
+#     sideEffects: None
+#     timeoutSeconds: 5
+
+# ---
+# apiVersion: admissionregistration.k8s.io/v1
+# kind: MutatingWebhookConfiguration
+# metadata:
+#   name: deployment-mutation
+# webhooks:
+#   - name: "deployment-mutation.production.svc"
+#     namespaceSelector:
+#       matchExpressions:
+#         - key: kubernetes.io/metadata.name
+#           operator: In
+#           values: [ "memcached-operator-system" ]
+#     rules:
+#       - operations: [ "CREATE" ]
+#         apiGroups: [ "cache.example.com" ]
+#         apiVersions: [ "v1alpha1" ]
+#         resources: [ "memcacheds" ]
+#         scope: "Namespaced"
+#     clientConfig:
+#       service:
+#         namespace: memcached-operator-system
+#         name: memcached-operator-webhook
+#         path: "/mutate"
+#       caBundle: ${ENCODED_CA}
+#     admissionReviewVersions: ["v1"]
+#     sideEffects: None
+#     timeoutSeconds: 5
