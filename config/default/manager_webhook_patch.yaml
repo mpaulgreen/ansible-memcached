@@ -12,13 +12,15 @@ spec:
         image: quay.io/mpaulgreen/webhook0.0.1
         imagePullPolicy: Always
         ports:
-          - containerPort: 5443        
+          - containerPort: 9443        
         volumeMounts:
         - mountPath: /etc/certs
           name: webhook-cert
+          readOnly: true
       volumes:
       # This assumes there is a secret called webhook-cert containing TLS certificates
       # Projects like cert-manager can create these certificates
       - name: webhook-cert
         secret:
-          secretName: memcached-operator-webhook-cert
+          defaultMode: 420
+          secretName: webhook-server-cert
