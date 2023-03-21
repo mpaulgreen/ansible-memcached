@@ -9,7 +9,7 @@ spec:
       containers:
       - name: webhook
         # Replace this with the built image name
-        image: quay.io/mpaulgreen/webhook0.0.1
+        image: quay.io/mpaulgreen/webhook:0.0.2
         imagePullPolicy: Always
         ports:
           - containerPort: 9443        
