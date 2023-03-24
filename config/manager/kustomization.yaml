@@ -6,4 +6,4 @@ kind: Kustomization
 images:
 - name: controller
   newName: quay.io/mpaulgreen/astech-memcached-operator
-  newTag: 0.0.2
+  newTag: 0.0.5
