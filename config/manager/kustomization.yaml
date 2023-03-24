@@ -5,5 +5,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
 - name: controller
-  newName: quay.io/mpaulgreen/memcached-operator
+  newName: quay.io/mpaulgreen/astech-memcached-operator
   newTag: 0.0.2
