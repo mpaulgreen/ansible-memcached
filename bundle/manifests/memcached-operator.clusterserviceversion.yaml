@@ -27,6 +27,12 @@ spec:
     - kind: Memcached
       name: memcacheds.cache.example.com
       version: v1alpha1
+      specDescriptors:
+        - description: Size is the size of the memcached deployment
+          displayName: Size
+          path: size
+          x-descriptors:
+          - 'urn:alm:descriptor:com.tectonic.ui:podCount'
   description: This is a sample ansible memcahed operator
   displayName: ansible-memcached
   icon:
